@@ -33,8 +33,8 @@ const sendRequest = () => {
       url: url,
       date: performance.timeOrigin,//first created date
       createdDate: createdDate,
-      ttfb: ttfb, // Time to first byte
-      fcp: fcp, // First contentful paint
+      timeToFirstByte: ttfb, // Time to first byte
+      firstContentfulPaint: fcp, // First contentful paint
       domLoad: domLoad,
       windowLoad: windowLoad,
     };
