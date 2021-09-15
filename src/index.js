@@ -3,6 +3,7 @@ const api = "https://perfanalyticsx-api.herokuapp.com/analytics";
 const url = window.location.href;
 const performanceTiming = window.performance.toJSON().timing;
 const currentTime = new Date().valueOf();
+const createdDate = new Date().toISOString().slice(0, 10);
 var fcp, ttfb, windowLoad, domLoad;
 
 // Converting ms to seconds
@@ -30,7 +31,8 @@ const sendRequest = () => {
   const request = setInterval(() => {
     let data = {
       url: url,
-      date: performance.timeOrigin,
+      date: performance.timeOrigin,//first created date
+      createdDate: createdDate,
       ttfb: ttfb, // Time to first byte
       fcp: fcp, // First contentful paint
       domLoad: domLoad,
