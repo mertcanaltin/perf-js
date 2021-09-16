@@ -1,10 +1,21 @@
 // Variables
-const api = "https://perfanalyticsx-api.herokuapp.com/analytics";
+const api = "http://localhost:3000/analytics";
 const url = window.location.href;
 const performanceTiming = window.performance.toJSON().timing;
 const currentTime = new Date().valueOf();
-const createdDate = new Date().toISOString().slice(0, 10);
+const createdDate = new Date().toISOString();
 var fcp, ttfb, windowLoad, domLoad;
+var resources = window.performance.getEntriesByType("resource");
+var resourcesData;
+
+window.addEventListener("load", () => {
+  startObserver();
+  getPerformanceTiming();
+  resource();
+  displayResources();
+  sendRequest();
+});
+
 
 // Converting ms to seconds
 const convertMsToSecond = (ms) => {
@@ -27,16 +38,29 @@ const startObserver = () => {
   observer.observe({ type: "paint", buffered: true });
 };
 
+const resource = () => {
+  resources.forEach((resource) => {
+    (resourcesData = {
+      fileName: resource.name,
+      initiatorType: resource.initiatorType,
+      transferSize: resource.transferSize,
+      duration: resource.duration,
+    }),
+      console.log(resourcesData);
+  });
+};
+
 const sendRequest = () => {
   const request = setInterval(() => {
     let data = {
       url: url,
-      date: performance.timeOrigin,//first created date
+      date: performance.timeOrigin, //first created date
       createdDate: createdDate,
       timeToFirstByte: ttfb, // Time to first byte
       firstContentfulPaint: fcp, // First contentful paint
       domLoad: domLoad,
       windowLoad: windowLoad,
+      resources: [resourcesData],
     };
 
     console.log("PerfanalyticsJS Request Object : ", data);
@@ -53,15 +77,13 @@ const sendRequest = () => {
   }, 500); // This interval has been set because the PerformanceObserver runs after the window is loaded
 };
 
+//console
 // Retrieving and analysing of detailed network timing data regarding the loading of an application's resources
 const displayResources = () => {
   if (!window.performance) {
     console.error("PerfanalyticsJS Error : Performance NOT supported!");
     return;
   }
-
-  var resources = window.performance.getEntriesByType("resource");
-
   console.log("PerfanalyticsJS Resource Data : ");
 
   resources.forEach((resource) => {
@@ -72,11 +94,11 @@ const displayResources = () => {
         resource.initiatorType
     );
     console.log(
-      "-- Response time = " +
+      "Response time = " +
         convertMsToSecond(resource.responseEnd - resource.responseStart)
     );
     console.log(
-      "-- Request start until response end time = " +
+      "Request start until response end time = " +
         convertMsToSecond(
           resource.requestStart > 0
             ? resource.responseEnd - resource.requestStart
@@ -84,7 +106,7 @@ const displayResources = () => {
         )
     );
     console.log(
-      "-- Fetch until response end time = " +
+      "Fetch until response end time = " +
         convertMsToSecond(
           resource.fetchStart > 0
             ? resource.responseEnd - resource.fetchStart
@@ -92,7 +114,7 @@ const displayResources = () => {
         )
     );
     console.log(
-      "-- Start until response end time = " +
+      "Start until response end time = " +
         convertMsToSecond(
           resource.startTime > 0
             ? resource.responseEnd - resource.startTime
@@ -120,10 +142,3 @@ const getPerformanceTiming = () => {
     currentTime - performanceTiming.navigationStart
   );
 };
-
-window.addEventListener("load", () => {
-  startObserver();
-  getPerformanceTiming();
-  displayResources();
-  sendRequest();
-});
