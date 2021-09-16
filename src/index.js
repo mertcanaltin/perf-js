@@ -84,43 +84,10 @@ const displayResources = () => {
     console.error("PerfanalyticsJS Error : Performance NOT supported!");
     return;
   }
-  console.log("PerfanalyticsJS Resource Data : ");
+  console.log("Perf-JS Data : ");
 
   resources.forEach((resource) => {
-    console.log(
-      "Resource - Name : " +
-        resource.name +
-        " | Type : " +
-        resource.initiatorType
-    );
-    console.log(
-      "Response time = " +
-        convertMsToSecond(resource.responseEnd - resource.responseStart)
-    );
-    console.log(
-      "Request start until response end time = " +
-        convertMsToSecond(
-          resource.requestStart > 0
-            ? resource.responseEnd - resource.requestStart
-            : "0"
-        )
-    );
-    console.log(
-      "Fetch until response end time = " +
-        convertMsToSecond(
-          resource.fetchStart > 0
-            ? resource.responseEnd - resource.fetchStart
-            : "0"
-        )
-    );
-    console.log(
-      "Start until response end time = " +
-        convertMsToSecond(
-          resource.startTime > 0
-            ? resource.responseEnd - resource.startTime
-            : "0"
-        )
-    );
+    console.log(resource);
   });
 };
 
