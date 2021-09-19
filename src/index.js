@@ -1,5 +1,4 @@
-// Variables
-const api = "https://perfanalyticsx-api.herokuapp.com/analytics";
+const api = "http://perfanalyticsx-api.herokuapp.com/analytics";
 const url = window.location.href;
 const performanceTiming = window.performance.toJSON().timing;
 const currentTime = new Date().valueOf();
@@ -11,18 +10,15 @@ var resourcesData;
 window.addEventListener("load", () => {
   startObserver();
   getPerformanceTiming();
-  resource();
   displayResources();
   sendRequest();
 });
 
 
-// Converting ms to seconds
 const convertMsToSecond = (ms) => {
   return ms / 1000;
 };
 
-// FCP metric to observe (https://developer.mozilla.org/en-US/docs/Web/API/PerformanceObserver)
 const startObserver = () => {
   if (typeof PerformanceObserver !== "function") {
     console.error("PerfanalyticsJS Error : PerformanceObserver NOT supported!");
@@ -38,29 +34,29 @@ const startObserver = () => {
   observer.observe({ type: "paint", buffered: true });
 };
 
-const resource = () => {
-  resources.forEach((resource) => {
-    (resourcesData = {
-      fileName: resource.name,
-      initiatorType: resource.initiatorType,
-      transferSize: resource.transferSize,
-      duration: resource.duration,
-    }),
-      console.log(resourcesData);
-  });
-};
+var resourcesData = resources
+    .filter(function (resourcesData) { return resourcesData.initiatorType !== 'xmlhttprequest'; })
+    .map(function (resourcesData) {
+    return {
+        name: resourcesData.name,
+        initiatorType: resourcesData.initiatorType,
+        transferSize: resourcesData.transferSize,
+        duration: resourcesData.duration
+    };
+});
+console.log(resourcesData, 'tatlı :)');
+          
 
 const sendRequest = () => {
   const request = setInterval(() => {
     let data = {
       url: url,
-      date: performance.timeOrigin, //first created date
-      createdDate: createdDate,
-      timeToFirstByte: ttfb, // Time to first byte
-      firstContentfulPaint: fcp, // First contentful paint
+      date: performance.timeOrigin, 
+      timeToFirstByte: ttfb, 
+      firstContentfulPaint: fcp, 
       domLoad: domLoad,
       windowLoad: windowLoad,
-      resources: [resourcesData],
+      resources:resourcesData,
     };
 
     console.log("PerfanalyticsJS Request Object : ", data);
@@ -74,11 +70,10 @@ const sendRequest = () => {
     fetch(api, options).then((response) => console.debug(response));
 
     clearInterval(request);
-  }, 500); // This interval has been set because the PerformanceObserver runs after the window is loaded
+  }, 500); 
 };
 
-//console
-// Retrieving and analysing of detailed network timing data regarding the loading of an application's resources
+
 const displayResources = () => {
   if (!window.performance) {
     console.error("PerfanalyticsJS Error : Performance NOT supported!");
@@ -91,7 +86,6 @@ const displayResources = () => {
   });
 };
 
-// Calculating performance-related information for the current page
 const getPerformanceTiming = () => {
   if (!performanceTiming) {
     console.error("PerfanalyticsJS Error : Performance NOT supported!");
