@@ -12,9 +12,8 @@ h1 {
 }
 
 #root {
+  background: url("image.png") no-repeat 98% 2%;
   padding: 20px;
-}
-
-.img-2 {
-  width: 5rem;
+  height: 100%;
+  box-sizing: border-box;
 }
