@@ -1,19 +1,17 @@
-const api = "http://perfanalyticsx-api.herokuapp.com/analytics";
+const api = "https://perfanalyticsx-api.herokuapp.com/analytics";
 const url = window.location.href;
+
+// TODO
 const performanceTiming = window.performance.toJSON().timing;
 const currentTime = new Date().valueOf();
-const createdDate = new Date().toISOString();
-var fcp, ttfb, windowLoad, domLoad;
-var resources = window.performance.getEntriesByType("resource");
-var resourcesData;
+let fcp, ttfb, windowLoad, domLoad;
+let resources = window.performance.getEntriesByType("resource");
 
 window.addEventListener("load", () => {
   startObserver();
   getPerformanceTiming();
-  displayResources();
   sendRequest();
 });
-
 
 const convertMsToSecond = (ms) => {
   return ms / 1000;
@@ -34,29 +32,30 @@ const startObserver = () => {
   observer.observe({ type: "paint", buffered: true });
 };
 
-var resourcesData = resources
-    .filter(function (resourcesData) { return resourcesData.initiatorType !== 'xmlhttprequest'; })
-    .map(function (resourcesData) {
+let resourcesData = resources
+  .filter(function (resourcesData) {
+    return resourcesData.initiatorType !== "xmlhttprequest";
+  })
+  .map(function (resourcesData) {
     return {
-        name: resourcesData.name,
-        initiatorType: resourcesData.initiatorType,
-        transferSize: resourcesData.transferSize,
-        duration: resourcesData.duration
+      name: resourcesData.name,
+      initiatorType: resourcesData.initiatorType,
+      transferSize: resourcesData.transferSize,
+      duration: resourcesData.duration,
     };
-});
-console.log(resourcesData, 'tatlı :)');
-          
+  });
+console.log(resourcesData, "tatlı :)");
 
 const sendRequest = () => {
   const request = setInterval(() => {
     let data = {
       url: url,
-      date: performance.timeOrigin, 
-      timeToFirstByte: ttfb, 
-      firstContentfulPaint: fcp, 
+      date: performance.timeOrigin,
+      timeToFirstByte: ttfb,
+      firstContentfulPaint: fcp,
       domLoad: domLoad,
       windowLoad: windowLoad,
-      resources:resourcesData,
+      resources: resourcesData,
     };
 
     console.log("PerfanalyticsJS Request Object : ", data);
@@ -70,20 +69,7 @@ const sendRequest = () => {
     fetch(api, options).then((response) => console.debug(response));
 
     clearInterval(request);
-  }, 500); 
-};
-
-
-const displayResources = () => {
-  if (!window.performance) {
-    console.error("PerfanalyticsJS Error : Performance NOT supported!");
-    return;
-  }
-  console.log("Perf-JS Data : ");
-
-  resources.forEach((resource) => {
-    console.log(resource);
-  });
+  }, 500);
 };
 
 const getPerformanceTiming = () => {
