@@ -43,7 +43,7 @@ module.exports = {
     open: true,
     hot: true,
     host: "localhost",
-    static: path.join(__dirname, 'public'),
+    static: path.join(__dirname, 'demo'),
     port: 9000
   },
   module: {
