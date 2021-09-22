@@ -31,7 +31,6 @@ module.exports = {
     path: path.resolve(__dirname, 'build'),
     library: 'PerfJss',
     libraryTarget: 'umd',
-    clean: true
   },
   optimization: {
     minimize: true,
