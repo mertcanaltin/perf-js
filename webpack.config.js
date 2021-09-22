@@ -29,7 +29,7 @@ module.exports = {
   output: {
     filename: 'index.js',
     path: path.resolve(__dirname, 'build'),
-    library: 'MyLibrary',
+    library: 'PerfJss',
     libraryTarget: 'umd',
     clean: true
   },
@@ -43,7 +43,7 @@ module.exports = {
     open: true,
     hot: true,
     host: "localhost",
-    static: path.join(__dirname, 'demo'),
+    static: path.join(__dirname, 'perf'),
     port: 9000
   },
   module: {
