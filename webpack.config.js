@@ -25,7 +25,7 @@ const banner = `
 module.exports = {
   mode: "production",
   devtool: 'source-map',
-  entry: './src/index.js',
+  entry: './demo/main.js',
   output: {
     filename: 'index.js',
     path: path.resolve(__dirname, 'build'),
