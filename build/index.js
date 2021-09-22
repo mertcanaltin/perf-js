@@ -1,9 +1,9 @@
 /*!
  * 
- *   @hodgef/js-library-boilerplate-basic v1.5.120
- *   https://github.com/hodgef/js-library-boilerplate-basic
+ *   mertcanaltin v1.0.1
+ *   https://github.com/mertcanaltin/perf-js
  *
- *   Copyright (c) Francisco Hodge (https://github.com/hodgef) and project contributors.
+ *   Copyright (c) Mert Can Altın (https://github.com/mertcanaltin) and project contributors.
  *
  *   This source code is licensed under the MIT license found in the
  *   LICENSE file in the root directory of this source tree.
