@@ -1,5 +1,4 @@
 ## 🚀 Perf-Js
- <script src="https://perf-js.vercel.app/index.js"></script>
 ## Overview
 
 <img width="650" alt="Screen Shot 2021-04-21 at 15 22 37" src="https://i.hizliresim.com/ap8lbsb.png">
