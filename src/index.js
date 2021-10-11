@@ -1,7 +1,7 @@
 const api = "https://perfanalyticsx-api.herokuapp.com/analytics";
 const url = window.location.href;
 
-// TODO
+// TODO https://developer.mozilla.org/en-US/docs/Web/API/Performance/toJSON
 const performanceTiming = window.performance.toJSON().timing;
 const currentTime = new Date().valueOf();
 let fcp, ttfb, windowLoad, domLoad;
